@@ -5,13 +5,30 @@ The repository contains ROS 2 controller code, launch files, and headers for bui
 
 ## Requirements
 Install and configure the versions of these tools that are compatible with your PX4 and Gazebo setup:
-* ROS 2 [Install](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
-* PX4 Autopilot [Setup](https://docs.px4.io/main/en/dev_setup/dev_env_linux_ubuntu)
-* Gazebo [Install](https://gazebosim.org/docs/harmonic/ros_installation/)
-* `colcon` and the ROS 2 build tools
-* Gnuplot
+* [ROS 2](https://docs.px4.io/main/en/ros2/user_guide#install-ros-2)
+* Colcon and other ROS 2 build tools
+* [PX4 Autopilot](https://docs.px4.io/main/en/ros2/user_guide#install-px4)
+* [Gazebo](https://gazebosim.org/docs/harmonic/ros_installation/)
+* [QGroundControl](https://docs.qgroundcontrol.com/master/en/qgc-user-guide/getting_started/download_and_install.html)
+* [uXRCE-DDS](https://docs.px4.io/main/en/middleware/uxrce_dds)
+* [px4_msgs](https://github.com/PX4/px4_msgs)
+* Gnuplot - `sudo apt install gnuplot`
 
-## Build and Simulate
+## Features
+* Multi-vehicle PX4 Software-in-the-Loop (SITL) simulation
+* Swarm logging and performance plots
+* Comparison of mission completion time across algorithms and varying swarm sizes
+* Extensible controller base class
+* Available algorithms:
+  * Boids
+  * Consensus
+  * Artificial Potential Fields
+  * Formation Control
+  * Particle Swarm Optimization
+  * Artificial Bee Colony
+  * Ant Colony Optimization
+
+## Build and Test
 From your ROS 2 workspace
 ```
 cd ~/ros2_ws/src
@@ -21,26 +38,35 @@ git clone https://github.com/sohamsarpotdar2001/px4-gazebo-swarm-algorithms.git
 Build the package
 ```
 cd ~/ros2_ws
-colcon build --packages-select px4-gazebo-swarm-algorithms
+colcon build --packages-select drone_swarm
 ```
 
-Run the simulation
+Start QGroundControl (Terminal 1)
 ```
-ros2 launch px4-gazebo-swarm-algorithms swarm_launch.py drone_count:=5
-```
-
-Test a controller
-```
-ros2 launch px4-gazebo-swarm-algorithms swarm_logger.launch.py algo:=consensus
+./QGroundControl-x86_64.AppImage
 ```
 
-Available algorithms:
-* Boids
-* Consensus
-* Artificial Potential Fields
-* Formation Control
-* Particle Swarm Optimization
-* Artificial Bee Colony
-* Ant Colony Optimization
+Run the simulation (Terminal 2)
+```
+ros2 launch drone_swarm swarm_launch.py drone_count:=5
+```
 
-After the waypoint mission ends, Press `Ctrl + C` to terminate the nodes and save the plot in the present directory
+Test a controller (Terminal 3)
+```
+ros2 launch drone_swarm swarm_logger.launch.py algo:=consensus drone_count:=5
+```
+
+
+After the waypoint mission ends, Press `Ctrl + C` to terminate the nodes in Terminal 3 and save the plot in the present directory.
+The `swarm_logger` node prints out the calculated metrics in the terminal and also mentions the graph file
+```
+[swarm_logger-3] [INFO] [1795612768.089351765] [swarm_logger]: ================ SWARM METRICS SUMMARY ================
+[swarm_logger-3] [INFO] [1795612768.089380885] [swarm_logger]: Samples Recorded           : 383 (38.2 s)
+[swarm_logger-3] [INFO] [1795612768.089393356] [swarm_logger]: Mean Tracking Error        : 2.074 m
+[swarm_logger-3] [INFO] [1795612768.089399873] [swarm_logger]: Total Separation Violations: 13
+[swarm_logger-3] [INFO] [1795612768.089405484] [swarm_logger]: Total Collisions (<0.65m)  : 0
+[swarm_logger-3] [INFO] [1795612768.089412137] [swarm_logger]: Goals Reached              : 5 (mean settling: 5.51 s)
+[swarm_logger-3] [INFO] [1795612768.089418403] [swarm_logger]: Gnuplot graph saved to     : swarm_consensus_report.png
+```
+
+<img width="800" height="500" alt="swarm_consensus_report" src="https://github.com/user-attachments/assets/7326e74d-f406-4ae5-86f1-ba4ef640cfb6" />
