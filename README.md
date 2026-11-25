@@ -105,18 +105,14 @@ When all the waypoints are covered, terminate gazebo and algorithm node in Termi
 The swarm logger generates four plots for evaluating an algorithm:
 
 1. **Centroid tracking error**\
-$$/epsilon = P_(centroid) - P_(goal)$$
+$$\epsilon = P_{centroid} - P_{goal}$$
 
 2. **Goal-reaching time**\
-$$T_goal = T_(goal_reached) - T_(goal_publshed)$$
+$$T_{goal} = T_{goal_reached} - T_{goal_publshed}$$
 
 3. **Minimum inter-drone separation**\
-$$
-/theta = min(P_n - P_(n-1) /forall drones 1-n
-$$
+$$\theta = min(P_n - P_{n-1} \forall drones 1-n$$
 
 7. **Cumulative separation violations**\
-$$
-/lambda = (P_n - P(n-1)) < d_(safe)
-$$
+$$\lambda = (P_n - P{n-1}) < d_{safe}$$
 
