@@ -104,15 +104,87 @@ When all the waypoints are covered, terminate gazebo and algorithm node in Termi
 
 The swarm logger generates four plots for evaluating an algorithm:
 
-1. **Centroid tracking error**\
-$$\epsilon = P_{centroid} - P_{goal}$$
+1. **Centroid tracking error**
+```math
+\epsilon = P_{centroid} - P_{goal}
+```
 
-2. **Goal-reaching time**\
-$$T_{goal} = T_{goal_reached} - T_{goal_publshed}$$
+2. **Goal Reaching time**
+```math
+T_{goal} = T_{goal\ reached} - T_{goal\ publshed}
+```
 
-3. **Minimum inter-drone separation**\
-$$\theta = min(P_n - P_{n-1} \forall drones 1-n$$
+3. **Minimum inter-drone separation**
+```math
+\theta = min(P_n - P_{n-1})
+```
+7. **Cumulative separation violations**
+```math
+\lambda = (P_n - P_{n-1}) < d_{safe}
+```
 
-7. **Cumulative separation violations**\
-$$\lambda = (P_n - P{n-1}) < d_{safe}$$
+## Development and extensions
 
+The project is designed to be extended with custom swarm algorithms, Gazebo worlds, and performance metrics.
+
+### Implement a custom algorithm
+To create a new controller, derive a class from the `SwarmBaseController` base class. This ensures compatibility with the launch system and the swarm logger.
+
+1. **Inherit**: Create a class that inherits from `SwarmBaseController<BaseDroneAgent>`
+2. **Expand**: Add more variables to your DroneAgent by inheriting from BaseDroneAgent
+    ```
+    struct MyDroneAgent : public BaseDroneAgent {
+        double obstacle_dist;
+        double battery_health;
+    };
+    
+    class Px4CustomController : public SwarmBaseController<MyDroneAgnet> {
+    public:
+        explicit Px4CustomController() : SwarmBaseController<MyDroneAgent>(node_name) { }
+    };
+    ```
+
+3. **Override**: Update the `compute_velocities` function for your custom algorithm
+    ```
+    class MySwarmController : public SwarmBaseController<BaseDroneAgent> {
+    public:
+        void compute_velocities() override {
+            // custom algorithm implementation
+        }
+    
+        // Add more functions or control logic required by your implementation.
+    };
+    ```
+
+### Adding Custom Gazebo Worlds
+
+You can test your algorithms in custom environments to evaluate robustness against different terrain or obstacles.
+
+* **Base on Defaults**: Start with a default PX4 world SDF to ensure all necessary simulation plugins (Physics, ground_plane, sun) are initialized correctly.
+* **Modify Terrain**: Add your custom models or terrains to the `<model>` section. Also put your custom model at `PX4-Autopilot/Tools/simulation/gz/models`
+  ```
+  <model name="grasspatch">
+    <static>true</static>
+    <include>
+      <uri>https://fuel.ignitionrobotics.org/1.0/hexarotor/models/grasspatch</uri>
+      <name>grasspatch</name>
+      <pose>2.71574 -22.80395 0 0 -0 0.006057</pose>
+    </include>
+  </model>
+  <model name="my_model">
+    <static>true</static>
+    <include>
+      <uri>model://my_model</uri>
+    </include>
+  </model>
+  ```
+* **Save and Apply**: Save the custom world file to `PX4-Autopilot/Tools/simulation/gz/worlds`. Edit the `swarm_launch.py` file from repo and add your world name for the `PX4_GZ_WORLD` variable
+
+  <img width="800" height="600" alt="custom_world_sim" src="https://github.com/user-attachments/assets/5f485773-3692-4576-ba96-0934d97a8e39" />
+
+
+### Custom Performance Metrics
+The swarm logger can be extended to track new KPIs beyond the default tracking error and separation violations.
+* **Log Data**: Add the required telemetry or state data to the logger's collection loop.
+* **Update Plotter**: Modify the plotting script to process this new data stream.
+* **Compare**: Use gnuplot to plot these new metrics across different algorithms or varying numbers of drones to analyze scalability.
