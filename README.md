@@ -56,6 +56,7 @@ Test a controller (Terminal 3)
 ros2 launch drone_swarm swarm_logger.launch.py algo:=consensus drone_count:=5
 ```
 
+<img width="800" height="600" alt="swarm_simulation_gazebo" src="https://github.com/user-attachments/assets/f8fcac61-0eb6-4c4d-a095-2f883675310f" />
 
 After the waypoint mission ends, Press `Ctrl + C` to terminate the nodes in Terminal 3 and save the plot in the present directory.
 The `swarm_logger` node prints out the calculated metrics in the terminal and also mentions the graph file
