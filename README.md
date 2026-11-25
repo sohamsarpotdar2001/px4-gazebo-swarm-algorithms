@@ -97,7 +97,7 @@ ros2 run drone_swarm boids --drone_count=5
 
 When all the waypoints are covered, terminate gazebo and algorithm node in Terminals 2 and 4. Then relaunch gazebo with a different `drone_count` value and start the same algoritihm node or any other of your choice. After every mission completion, the logger node prints out the performance metrics across all tested algorithms and drone sizes.
 
-<img width="1000" height="650" alt="scalability" src="https://github.com/user-attachments/assets/819bf80e-3d27-462c-9bbc-77a736b78986" />
+<img width="800" height="500" alt="scalability" src="https://github.com/user-attachments/assets/819bf80e-3d27-462c-9bbc-77a736b78986" />
 
 ## Swarm logging and evaluation
 
