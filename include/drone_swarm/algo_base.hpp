@@ -164,8 +164,6 @@ protected:
         const double half_box = box_size_ * 0.5;
         const double margin = 0.5;
 
-        RCLCPP_INFO(get_logger(), "Received goal: (%.2f, %.2f, %.2f)", msg->x, msg->y, msg->z);
-
         active_goal_.x = std::clamp(msg->x, -half_box + margin, half_box - margin);
         active_goal_.y = std::clamp(msg->y, -half_box + margin, half_box - margin);
         active_goal_.z = std::clamp(msg->z, -6.0 - half_box + margin, -6.0 + half_box - margin);
