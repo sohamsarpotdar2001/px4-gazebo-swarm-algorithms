@@ -56,7 +56,7 @@ Test a controller (Terminal 3)
 ros2 launch drone_swarm swarm_logger.launch.py algo:=consensus drone_count:=5
 ```
 
-<img width="800" height="600" alt="swarm_simulation_gazebo" src="https://github.com/user-attachments/assets/f8fcac61-0eb6-4c4d-a095-2f883675310f" /> \
+<img width="800" height="600" alt="swarm_simulation_gazebo" src="https://github.com/user-attachments/assets/f8fcac61-0eb6-4c4d-a095-2f883675310f" />
 
 After the waypoint mission ends, Press `Ctrl + C` to terminate the nodes in Terminal 3 and save the plot in the present directory.
 The `swarm_logger` node prints out the calculated metrics in the terminal and also mentions the graph file
@@ -70,7 +70,7 @@ The `swarm_logger` node prints out the calculated metrics in the terminal and al
 [swarm_logger-3] [INFO] [1795612768.089418403] [swarm_logger]: Gnuplot graph saved to     : swarm_consensus_report.png
 ```
 
-<img width="800" height="500" alt="swarm_consensus_report" src="https://github.com/user-attachments/assets/7326e74d-f406-4ae5-86f1-ba4ef640cfb6" /> \
+<img width="800" height="500" alt="swarm_consensus_report" src="https://github.com/user-attachments/assets/7326e74d-f406-4ae5-86f1-ba4ef640cfb6" /> 
 
 ## Scaling up
 The repository also includes code for comparing different algorithms across varying numbers of drones. It plots mission completion time for the algorithms in the same graph, making it easier to compare performance as swarm size changes.
@@ -97,8 +97,7 @@ ros2 run drone_swarm boids --drone_count=5
 
 When all the waypoints are covered, terminate gazebo and algorithm node in Terminals 2 and 4. Then relaunch gazebo with a different `drone_count` value and start the same algoritihm node or any other of your choice. After every mission completion, the logger node prints out the performance metrics across all tested algorithms and drone sizes.
 
-<img width="800" height="500" alt="scalability" src="https://github.com/user-attachments/assets/3716b4bc-775d-413a-ba7f-86770af63615" /> \
-
+<img width="1000" height="650" alt="scalability" src="https://github.com/user-attachments/assets/819bf80e-3d27-462c-9bbc-77a736b78986" />
 
 ## Swarm logging and evaluation
 
