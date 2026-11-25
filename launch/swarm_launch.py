@@ -26,17 +26,17 @@ def launch_setup(context, *args, **kwargs):
         instance = i + 1
         x = ((-1)**i) * i
         y = ((-1)**i) * i
-        drones.append((instance, str(x), str(y), "4022", "gz_x500_stereo"))
+        drones.append((instance, str(x), str(y)))
     
     processes = []
 
-    for index, (instance, x, y, autostart, model) in enumerate(drones):
+    for index, (instance, x, y) in enumerate(drones):
 
         environment = os.environ.copy()
 
-        environment["PX4_SYS_AUTOSTART"] = autostart
+        environment["PX4_SYS_AUTOSTART"] = "4001"
         environment["PX4_GZ_NO_FOLLOW"] = "1"
-        environment["PX4_SIM_MODEL"] = model
+        environment["PX4_SIM_MODEL"] = "gz_x500"
         environment["PX4_DRONE_COUNT"] = str(drone_count)
         environment["PX4_GZ_MODEL_POSE"] = f"{x},{y}"
         environment["PX4_GZ_WORLD"] = "default"
