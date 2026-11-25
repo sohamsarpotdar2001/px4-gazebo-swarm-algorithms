@@ -89,10 +89,10 @@ public:
         }
 
         target_altitude_ned_ = this->declare_parameter<double>("target_altitude_ned", -5.0);
-        box_size_            = this->declare_parameter<double>("box_size", 44.0);
-        safe_separation_     = this->declare_parameter<double>("safe_separation", 1.6);
-        max_speed_           = this->declare_parameter<double>("max_speed", 1.2);
-        goal_tolerance_      = this->declare_parameter<double>("goal_tolerance", 0.45);
+        box_size_ = this->declare_parameter<double>("box_size", 44.0);
+        safe_separation_ = this->declare_parameter<double>("safe_separation", 1.6);
+        max_speed_ = this->declare_parameter<double>("max_speed", 1.2);
+        goal_tolerance_ = this->declare_parameter<double>("goal_tolerance", 0.45);
 
         active_goal_ = {0.0, 0.0, target_altitude_ned_};
 
